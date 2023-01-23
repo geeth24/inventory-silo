@@ -1,5 +1,6 @@
 import { UserAuth } from "@/components/context/AuthContext"
 import { db } from "@/utils/Firebase"
+import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/20/solid"
 import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore"
 import { GetServerSideProps } from "next"
 import Link from "next/link"
@@ -11,6 +12,7 @@ interface Props {
 function Order({ orderItemsData, id }: Props) {
     const { user, getUserData } = UserAuth()
     const [orderFullfilled, setOrderFullfilled] = React.useState(false)
+    const [orderItems, setOrderItems] = React.useState(orderItemsData)
 
     const handleOrderFullFilled = async () => {
         const orderRef = doc(db, "orders", `${id}`)
@@ -54,7 +56,7 @@ function Order({ orderItemsData, id }: Props) {
                 </h1>
                 <div className="overflow-hidden bg-blue-900/50 shadow sm:rounded-md rounded-md border border-blue-200/50 backdrop-filter backdrop-blur-md">
                     <ul role="list" className="divide-y divide-blue-200">
-                        {orderItemsData.map((orderItem: any) => (
+                        {orderItems.map((orderItem: any) => (
                             <div
                                 key={orderItem.name}
                                 className="flex items-center px-4 py-4 sm:px-6"
@@ -70,6 +72,59 @@ function Order({ orderItemsData, id }: Props) {
                                     <p className="text-sm font-medium text-blue-300">
                                         Quantity {orderItem.quantity}
                                     </p>
+                                </div>
+                                <div className="flex-shrink-0 pr-2">
+                                    {orderItem.fullfilled ? (
+                                        <CheckCircleIcon
+                                            className="w-5 h-5 text-green-400"
+                                            aria-hidden="true"
+                                        />
+                                    ) : (
+                                        <XCircleIcon
+                                            className="w-5 h-5 text-red-400"
+                                            aria-hidden="true"
+                                        />
+                                    )}
+                                </div>
+                                <div className="flex-shrink-0 pr-2">
+                                    <button
+                                        className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
+                                        onClick={() => {
+                                            const orderRef = doc(
+                                                db,
+                                                "orders",
+                                                `${id}`,
+                                                "items",
+                                                `${orderItem.id}`
+                                            )
+                                            updateDoc(orderRef, {
+                                                fullfilled:
+                                                    !orderItem.fullfilled,
+                                            })
+
+                                            const updateDate = async () => {
+                                                const orderItemsRef =
+                                                    collection(
+                                                        db,
+                                                        "orders",
+                                                        `${id}`,
+                                                        "items"
+                                                    )
+                                                const orderItems =
+                                                    await getDocs(orderItemsRef)
+                                                const orderItemsData =
+                                                    orderItems.docs.map((doc) =>
+                                                        doc.data()
+                                                    )
+                                                setOrderItems(orderItemsData)
+                                            }
+                                            updateDate()
+                                        }}
+                                    >
+                                        {orderItem.fullfilled
+                                            ? "Unfullfill"
+                                            : "Fullfill"}
+                                    </button>
                                 </div>
                             </div>
                         ))}
