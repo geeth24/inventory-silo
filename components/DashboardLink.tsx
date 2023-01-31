@@ -11,6 +11,7 @@ interface Props {
     totalItems: number
     fullfilled: boolean
     isLoading: boolean
+    date?: string
     // setisLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
@@ -20,6 +21,7 @@ function DashboardLink({
     totalItems,
     fullfilled,
     isLoading,
+    date,
 }: Props) {
     const [isLoading2, setIsLoading2] = React.useState(isLoading)
     return (
@@ -41,7 +43,7 @@ function DashboardLink({
                         <div className="flex-1 min-w-0 px-4 sm:grid md:grid-cols-2 md:gap-4 hidden">
                             <div>
                                 <p className="text-sm text-blue-100 truncate">
-                                    {orderID}
+                                    {date}
                                 </p>
                             </div>
                         </div>

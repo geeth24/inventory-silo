@@ -6,6 +6,7 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { Transition } from "@headlessui/react"
 import { XCircleIcon, XMarkIcon } from "@heroicons/react/20/solid"
+import Head from "next/head"
 
 function SignIn() {
     const router = useRouter()
@@ -46,6 +47,9 @@ function SignIn() {
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
+            <Head>
+                <title>Sign In | Inventory Silo</title>
+            </Head>
             <div
                 aria-live="assertive"
                 className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
