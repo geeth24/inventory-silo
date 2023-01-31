@@ -288,7 +288,7 @@ const PDF = ({ id, orderItemsData, date, rdOnly }: Props) => {
                         </Text>
                     </View>
 
-                    {omProduce !== undefined && (
+                    {omProduce[0] !== undefined && (
                         <>
                             <Text
                                 style={{
