@@ -1,6 +1,7 @@
 import { UserAuth } from "@/components/context/AuthContext"
 import DashboardLink from "@/components/DashboardLink"
 import Head from "next/head"
+import Image from "next/image"
 import Link from "next/link"
 import React from "react"
 import { useCallback, useEffect, useRef } from "react"
@@ -32,9 +33,17 @@ export default function Dashboard() {
             </Head>
             <div className="w-full h-full bg-blue-900/80 backdrop-filter backdrop-blur-md py-12 sm:px-6 lg:px-8">
                 <div className="max-w-7xl  mx-auto py-6 px-8">
-                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-7">
-                        Dashboard
-                    </h1>
+                    <div className="flex flex-row space-x-5 items-end mb-7">
+                        <Image
+                            src="/logo.svg"
+                            alt="Inventory Silo"
+                            width={100}
+                            height={100}
+                        />
+                        <h1 className="text-4xl md:text-6xl font-bold text-white">
+                            Dashboard
+                        </h1>
+                    </div>
 
                     <div className="overflow-hidden bg-blue-900/50 shadow sm:rounded-md rounded-md border border-blue-200/50 backdrop-filter backdrop-blur-md">
                         <ul role="list" className="divide-y divide-blue-200">
